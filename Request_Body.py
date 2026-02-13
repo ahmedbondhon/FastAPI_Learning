@@ -10,4 +10,8 @@ app = FastAPI()
 
 @app.post("/items/")
 async def read_item(item: item):
-    return item
+    item_dict = item.model_dump()
+    if item.text is not None:
+        price_with_tax = item.price + item.tax
+        item_dict.update({"Price with tax:" price_with_tax})
+    return item_dict
